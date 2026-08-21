@@ -18,8 +18,6 @@ services:
     # is the port inside the container.
     ports:
       - "8080:8080"
-    env_file:
-      - ./DatabaseSecrets.env
 
     # The commented out section below is an example of how to define a PostgreSQL
     # database that your application can use. `depends_on` tells Docker Compose to
@@ -41,11 +39,6 @@ services:
     volumes:
       - db-data:/var/lib/postgresql
       - ./Src/Scripts:/docker-entrypoint-initdb.d:ro
-      # - ./Src/Scripts/account.sql:/docker-entrypoint-initdb.d/account.sql:ro
-      # - ./Src/Scripts/board.sql:/docker-entrypoint-initdb.d/board.sql:ro
-      # - ./Src/Scripts/lane.sql:/docker-entrypoint-initdb.d/lane.sql:ro
-      # - ./Src/Scripts/ticket.sql:/docker-entrypoint-initdb.d/ticket.sql:ro
-      # - ./Src/Scripts/ticket_info.sql:/docker-entrypoint-initdb.d/ticket_info.sql:ro
     healthcheck:
       test: [ "CMD", "pg_isready" ]
       interval: 10s

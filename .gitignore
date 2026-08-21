@@ -1,1 +1,4 @@
 DatabaseSecrets.env
+./node_modules/
+./Src/Kanban-Job-Tracker/node_modules/
+../node_modules/
