@@ -3,5 +3,5 @@ CREATE Table lane (
     title text NOT NULL,
     lane_description text NOT NULL,
     board_id bigint NOT NULL REFERENCES board(id) ON DELETE CASCADE,
-    order int NOT NULL
+    lane_order int NOT NULL
     );
