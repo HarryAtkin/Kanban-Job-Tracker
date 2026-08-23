@@ -1,4 +1,5 @@
-﻿using DotNetEnv;
+﻿using Api.Service;
+using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -17,18 +18,21 @@ namespace Api
 
         public void ConfigureConnectionString()
         {
-            Env.Load("./.env");
+            //Env.Load("./.env");
+            Env.Load(Path.Combine(AppContext.BaseDirectory, ".env"));
 
-            var connectionString = Environment.GetEnvironmentVariable("DefaultConnection");
+            var connectionString = Environment.GetEnvironmentVariable("DefaultConnection")
+                ?? throw new InvalidOperationException("DefaultConnection not configured");
 
 
             Builder.Services.AddDbContext<DBContext>(options =>
-                options.UseSqlServer(connectionString));
+                options.UseNpgsql(connectionString));
         }
 
         public void ConfigureJWTToken()
         {
-            Env.Load("./.env");
+            //Env.Load("./.env");
+            Env.Load(Path.Combine(AppContext.BaseDirectory, ".env"));
 
             var Secret = Environment.GetEnvironmentVariable("Secret");
 
@@ -77,6 +81,30 @@ namespace Api
                 });
 
             });
+        }
+
+        public void ConfigureCors()
+        {
+            Builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.WithOrigins("http://localhost:5000", "http://localhost:5173")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                });
+
+            });
+        }
+
+        public void AddServices()
+        {
+            Builder.Services.AddScoped<IAccountService, AccountService>();
+        }
+
+        public void AddRepository()
+        {
+            Builder.Services.AddScoped<IAccountRepository, AccountRepository>();
         }
     }
 }

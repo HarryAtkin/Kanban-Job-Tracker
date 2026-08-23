@@ -12,13 +12,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: Kanban-Job-Tracker
+    container_name: Kanban-Job-Tracker-Api
     # If your application exposes a port, uncomment the following lines and change
     # the port numbers as needed. The first number is the host port and the second
     # is the port inside the container.
     ports:
       - "8080:8080"
-
+    env_file:
+      - ./DatabaseSecrets.env
     # The commented out section below is an example of how to define a PostgreSQL
     # database that your application can use. `depends_on` tells Docker Compose to
     # start the database before your application. The `db-data` volume persists the
@@ -28,6 +29,17 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+  app2:
+    build:
+      context: ./Src/Kanban-Job-Tracker
+      dockerfile: Dockerfile
+    container_name: Kanban-Job-Tracker
+    ports:
+      - "5000:80"
+    env_file:
+      - ./DatabaseSecrets.env
+
   db:
     image: postgres:18-alpine
     restart: always

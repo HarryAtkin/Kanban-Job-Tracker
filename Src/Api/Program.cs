@@ -13,6 +13,9 @@ var startup = new Startup(builder);
 startup.ConfigureConnectionString();
 startup.ConfigureSwaggerGen();
 startup.ConfigureJWTToken();
+startup.ConfigureCors();
+startup.AddServices();
+startup.AddRepository();
 
 var app = builder.Build();
 
@@ -22,11 +25,12 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
-
-    //Console.Write()
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+app.UseRouting();
+
+app.UseCors();
 
 app.UseAuthentication();
 

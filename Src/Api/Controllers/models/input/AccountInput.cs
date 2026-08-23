@@ -4,14 +4,14 @@ public class AccountInput
     public string LName {get; set;}
     public string Email {get; set;}
     public string Password {get; set;}
-    public DateTime? CreatedAt {get; set;}
+    public bool IsNew {get; set;}
 
-    public AccountInput(int id, string fName, string lName, string email, string password, bool isNew = false)
+    public AccountInput(string fName, string lName, string email, string password, bool isNew)
     {
         FName = fName;
         LName = lName;
         Email = email;
         Password = password;
-        CreatedAt = isNew ? DateTime.UtcNow : null;
+        IsNew = isNew;
     }
 }

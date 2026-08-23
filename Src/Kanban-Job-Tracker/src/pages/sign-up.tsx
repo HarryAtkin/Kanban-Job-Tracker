@@ -5,10 +5,15 @@ import { useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LoginPage from './login';
+import { create } from '../features/Auth';
 
 export default function SignUpPage () {
     
+    const [fName, setFName] = useState("");
+    const [lName, setLName] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
     const [type, setType] = useState('password');
     const [page, setPage] = useState<'login' | 'signup'>('signup');
 
@@ -33,7 +38,8 @@ export default function SignUpPage () {
                         <TextField
                             required
                             id="outlined-required"
-                            label="Email"
+                            label="First Name"
+                            onChange={(e) => setFName(e.target.value)}
                             sx={{width: '100%'}}
                         />
                     </Grid>
@@ -43,7 +49,8 @@ export default function SignUpPage () {
                         <TextField
                             required
                             id="outlined-required"
-                            label="Email"
+                            label="Last Name"
+                            onChange={(e) => setLName(e.target.value)}
                             sx={{width: '100%'}}
                         />
                     </Grid>
@@ -54,6 +61,7 @@ export default function SignUpPage () {
                             required
                             id="outlined-required"
                             label="Email"
+                            onChange={(e) => setEmail(e.target.value)}
                             sx={{width: '100%'}}
                         />
                     </Grid>
@@ -93,7 +101,7 @@ export default function SignUpPage () {
                     </Grid>
 
                     <Grid size={20} sx={{ boxSizing: 'border-box', marginLeft: '5%', marginRight: '5%' }}>
-                        <Button variant="contained" href="#contained-buttons" sx={{ margin: '2%', width: '50%' }}>
+                        <Button variant="contained" onClick={() => create(fName, lName, email, password)} sx={{ margin: '2%', width: '50%' }}>
                             Create Account
                         </Button>
                     </Grid>

@@ -1,3 +1,4 @@
+using Api.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,29 +9,30 @@ namespace Api.Controllers;
 [Route("[controller]")]
 public class AccountsController : ControllerBase
 {
-
-    [HttpGet()]
-    public string Get()
+    private IAccountService _accountService;
+    public AccountsController(IAccountService accountService)
     {
-        return "Hello world";
+        _accountService = accountService;
     }
 
-    //[HttpGet()]
-    //public IEnumerable<Account> GetByFilter()
-    //{
-    //    return Enumerable.Range(1, 5).Select(index => new Account
-    //    {
-    //    })
-    //    .ToArray();
-    //}
+    [HttpGet("{id:int}")]
+    public async Task<AccountOutput> GetById(int id)
+    {
+        var result = _accountService.GetById(id);
+        return await result;
+    }
 
-    //[HttpGet("{$id: int}")]
-    //public IEnumerable<Account> GetById(int id)
-    //{
-    //    return Enumerable.Range(1, 5).Select(index => new Account
-    //    {
-    //    })
-    //    .ToArray();
-    //}
+    [HttpGet("GetByEmail")]
+    public async Task<AccountOutput> GetByEmail(string email)
+    {
+        var result = _accountService.GetByEmail(email);
+        return await result;
+    }
 
+    [HttpGet()]
+    public async Task<IEnumerable<AccountOutput?>> Get()
+    {
+        var result = _accountService.Get();
+        return await result;
+    }
 }
