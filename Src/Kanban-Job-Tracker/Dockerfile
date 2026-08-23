@@ -27,21 +27,16 @@ FROM alpine:latest as base
 # executable. For language-specific examples, take a look at the Dockerfiles in
 # the Awesome Compose repository: https://github.com/docker/awesome-compose
 
-FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
-WORKDIR /src
-COPY Src/Api/Api.csproj Src/Api/
-RUN dotnet restore Src/Api/Api.csproj
-COPY Src/Api Src/Api
-RUN dotnet publish Src/Api/Api.csproj -c Release -o /app/publish --no-restore
-  
-FROM nginx:stable-alpine AS production
-COPY --from=build /app/build /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+From node:22-alpine AS build
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 WORKDIR /app
-COPY --from=build /app/publish .
-EXPOSE 8080
-USER $APP_UID
-ENTRYPOINT ["dotnet", "Api.dll"]
+
+COPY package*.json ./
+
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM nginx:stable-alpine AS final
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80

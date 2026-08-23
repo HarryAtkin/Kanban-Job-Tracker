@@ -4,10 +4,12 @@ import Box from '@mui/material/Box';
 import SignUpPage from './sign-up';
 import { useState } from 'react';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
+import { login } from '../features/Auth';
 
 export default function LoginPage () {
     
     const [page, setPage] = useState<'login' | 'signup'>('login');
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [type, setType] = useState('password');
 
@@ -24,6 +26,7 @@ export default function LoginPage () {
                             id="outlined-required"
                             label="Email"
                             sx={{width: '100%'}}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </Grid>
 
@@ -62,7 +65,7 @@ export default function LoginPage () {
                     </Grid>
 
                     <Grid size={20} sx={{ boxSizing: 'border-box', marginLeft: '5%', marginRight: '5%' }}>
-                        <Button variant="contained" href="#contained-buttons" sx={{ margin: '2%', width: '50%' }}>
+                        <Button variant="contained" onClick={() => login(email, password) } sx={{ margin: '2%', width: '50%' }}>
                             Login
                         </Button>
                         <Button variant="contained" onClick={() => setPage('signup') } sx={{ margin: '2%', width: '50%' }}>
