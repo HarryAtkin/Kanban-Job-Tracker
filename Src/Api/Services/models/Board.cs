@@ -5,7 +5,7 @@ public class Board
 {
     public int? Id { get; }
 
-    public int OwnerId { get; }
+    public int OwnerId { get; set; }
 
     public string Title { get; set; }
 
