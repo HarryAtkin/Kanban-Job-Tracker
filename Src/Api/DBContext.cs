@@ -9,6 +9,7 @@ namespace Api
         }
 
         public DbSet<AccountEntity> Account { get; set; } = null;
+        public DbSet<ContributorEntity> Contributor { get; set; } = null;
 
     }
 }

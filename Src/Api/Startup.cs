@@ -100,11 +100,13 @@ namespace Api
         public void AddServices()
         {
             Builder.Services.AddScoped<IAccountService, AccountService>();
+            Builder.Services.AddScoped<IContributorService, ContributorService>();
         }
 
         public void AddRepository()
         {
             Builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+            Builder.Services.AddScoped<IContributorRepository, ContributorRepository>();
         }
     }
 }
