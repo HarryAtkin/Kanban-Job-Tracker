@@ -16,16 +16,16 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("Authenticate")]
-    public async Task<AccountOutput> Authenticate(AccountInput accountInput)
+    public async Task<ActionResult<AccountOutput>> Authenticate(AccountInput accountInput)
     {
-        var result = _accountService.Authenticate(accountInput);
-        return await result;
+        var result = await _accountService.Authenticate(accountInput);
+        return result != null ? Ok(result) : Unauthorized();
     }
 
     [HttpPost("Create")]
-    public async Task<AccountOutput> Create(AccountInput accountInput)
+    public async Task<ActionResult<AccountOutput>> Create(AccountInput accountInput)
     {
-        var result = _accountService.Create(accountInput);
-        return await result;
+        var result = await _accountService.Create(accountInput);
+        return Ok(result);
     }
 }

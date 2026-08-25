@@ -21,16 +21,17 @@ public class AccountService: IAccountService
         _mapper = new AccountMapper();
     }
 
-    public async Task<AccountOutput> Authenticate(AccountInput account)
+    public async Task<AccountOutput?> Authenticate(AccountInput account)
     {
         var _account = _mapper.ToAccount(account);
+        _account.Password = HashPassword(_account.Password);
         _account = await _accountRepository.Authenticate(_account);
         if(_account != null)
         {
             _account.Token = GenerateToken(_account);
             return _mapper.ToAccountOutput(_account);
         }
-        throw new NotImplementedException();
+        return null;
     }
 
     public async Task<AccountOutput?> GetById(int id)
@@ -55,9 +56,30 @@ public class AccountService: IAccountService
     public async Task<AccountOutput> Create(AccountInput account)
     {
         var _account = _mapper.ToAccount(account);
+
+        _account.Password = HashPassword(_account.Password);
+
         _account = await _accountRepository.Create(_account);
         _account.Token = GenerateToken(_account);
         return _mapper.ToAccountOutput(_account);
+    }
+
+    private string HashPassword(string password)
+    {
+        Env.Load(Path.Combine(AppContext.BaseDirectory, ".env"));
+        var salt = Environment.GetEnvironmentVariable("Secret")
+                ?? throw new InvalidOperationException("Secret not configured");
+
+        var saltByte = Encoding.UTF8.GetBytes(salt);
+
+        var preHashed = new Rfc2898DeriveBytes(password, saltByte, 1000);
+
+        var hash = preHashed.GetBytes(20);
+        var hashBytes = new byte[36];
+        Array.Copy(saltByte, 0, hashBytes, 0, 16);
+        Array.Copy(hash, 0, hashBytes, 16, 20);
+
+        return Convert.ToBase64String(hashBytes);
     }
 
     private string GenerateToken(Account account)

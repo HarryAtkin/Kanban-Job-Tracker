@@ -10,6 +10,6 @@ public interface IAccountService
     public Task<AccountOutput?> GetByEmail(string email);
     public Task<IEnumerable<AccountOutput?>> Get();
 
-    public Task<AccountOutput> Create(AccountInput account);
+    public Task<AccountOutput?> Create(AccountInput account);
 
 }
