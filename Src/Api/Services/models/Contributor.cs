@@ -1,4 +1,3 @@
-
 public class Contributor
 {
     public int? Id { get; }

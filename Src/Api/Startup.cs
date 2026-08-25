@@ -101,12 +101,14 @@ namespace Api
         {
             Builder.Services.AddScoped<IAccountService, AccountService>();
             Builder.Services.AddScoped<IContributorService, ContributorService>();
+            Builder.Services.AddScoped<IBoardService, BoardService>();
         }
 
         public void AddRepository()
         {
             Builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             Builder.Services.AddScoped<IContributorRepository, ContributorRepository>();
+            Builder.Services.AddScoped<IBoardRepository, BoardRepository>();
         }
     }
 }
