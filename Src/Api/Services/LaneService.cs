@@ -22,7 +22,7 @@ public class LaneService : ILaneService
 
     public async Task<IEnumerable<LaneOutput?>> GetByBoardId(int id)
     {
-        var lane = await _laneRepository.GetByOwnerId(id);
+        var lane = await _laneRepository.GetByBoardId(id);
         return lane.Select(a => _mapper.ToLaneOutput(a)).ToList();
     }
 
