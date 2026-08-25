@@ -19,12 +19,12 @@ public class BoardRepository : IBoardRepository
         return board?.ToBoard;
     }
 
-    public async Task<Board?> GetByOwnerId(int id)
+    public async Task<IEnumerable<Board?>> GetByOwnerId(int id)
     {
         var board = await db.Board
             .Where(b => b.OwnerId == id)
-            .FirstOrDefaultAsync();
-        return board?.ToBoard;
+            .ToListAsync();
+        return board.Select(b => b.ToBoard);
     }
 
     public async Task<IEnumerable<Board?>> Get()
