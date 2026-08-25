@@ -12,6 +12,7 @@ namespace Api
         public DbSet<ContributorEntity> Contributor { get; set; } = null;
         public DbSet<BoardEntity> Board { get; set; } = null;
         public DbSet<TicketEntity> Ticket { get; set; } = null;
+        public DbSet<LaneEntity> Lane { get; set; } = null;
 
     }
 }

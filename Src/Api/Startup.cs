@@ -103,6 +103,7 @@ namespace Api
             Builder.Services.AddScoped<IContributorService, ContributorService>();
             Builder.Services.AddScoped<IBoardService, BoardService>();
             Builder.Services.AddScoped<ITicketService, TicketService>();
+            Builder.Services.AddScoped<ILaneService, LaneService>();
         }
 
         public void AddRepository()
@@ -111,6 +112,7 @@ namespace Api
             Builder.Services.AddScoped<IContributorRepository, ContributorRepository>();
             Builder.Services.AddScoped<IBoardRepository, BoardRepository>();
             Builder.Services.AddScoped<ITicketRepository, TicketRepository>();
+            Builder.Services.AddScoped<ILaneRepository, LaneRepository>();
         }
     }
 }

@@ -19,10 +19,10 @@ public class BoardService : IBoardService
         return board != null ? _mapper.ToBoardOutput(board) : null;
     }
 
-    public async Task<BoardOutput?> GetByOwnerId(int id)
+    public async Task<IEnumerable<BoardOutput?>> GetByOwnerId(int id)
     {
         var board = await _boardRepository.GetByOwnerId(id);
-        return board != null ? _mapper.ToBoardOutput(board) : null;
+        return board.Select(a => _mapper.ToBoardOutput(a)).ToList();
     }
 
     public async Task<IEnumerable<BoardOutput?>> Get()

@@ -23,10 +23,10 @@ public class BoardsController : ControllerBase
     }
 
     [HttpGet("GetByOwnerId/{id:int}")]
-    public async Task<ActionResult<BoardOutput?>> GetByOwnerId(int id)
+    public async Task<ActionResult<IEnumerable<BoardOutput?>>> GetByOwnerId(int id)
     {
-        var result = await _boardService.GetById(id);
-        return result != null ? Ok(result) : NotFound();
+        var result = await _boardService.GetByOwnerId(id);
+        return Ok(result);
     }
 
     [HttpGet()]
@@ -37,9 +37,9 @@ public class BoardsController : ControllerBase
     }
 
     [HttpPost("Create")]
-    public async Task<ActionResult<BoardOutput>> Create(BoardInput accountInput)
+    public async Task<ActionResult<BoardOutput>> Create(BoardInput boardInput)
     {
-        var result = await _boardService.Create(accountInput);
+        var result = await _boardService.Create(boardInput);
         return Created($"/Boards/{result.Id}", result);
     }
 }
