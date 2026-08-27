@@ -1,3 +1,4 @@
+using Api.Controllers.util;
 using Api.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,14 +16,16 @@ public class ContributorsController : ControllerBase
         _contributorService = contributorService;
     }
 
-    [HttpGet("{id:int}")]
+    [Authorize(Roles = "admin")]
+    [HttpGet()]
     public async Task<ContributorOutput?> GetById(int id)
     {
         var result = await _contributorService.GetById(id);
         return result;
     }
 
-    [HttpGet("GetByAccountId/{id:int}")]
+    [Authorize(Roles = "admin")]
+    [HttpGet("GetByAccountId")]
     public async Task<ActionResult<ContributorOutput?>> GetByAccountId(int id)
     {
         var result = await _contributorService.GetByAccountId(id);
@@ -32,10 +35,11 @@ public class ContributorsController : ControllerBase
     [HttpGet("GetByBoardId/{id:int}")]
     public async Task<ActionResult<IEnumerable<ContributorOutput?>>> GetByBoardId(int id)
     {
-        var result = await _contributorService.GetByBoardId(id);
+        var result = await _contributorService.GetByBoardId(id, User.GetUserId());
         return Ok(result);
     }
 
+    [Authorize(Roles = "admin")]
     [HttpGet()]
     public async Task<ActionResult<IEnumerable<ContributorOutput?>>> Get()
     {

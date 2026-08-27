@@ -19,12 +19,12 @@ public class ContributorRepository : IContributorRepository
         return contributor?.ToContributor;
     }
 
-    public async Task<Contributor?> GetByAccountId(int id)
+    public async Task<IEnumerable<Contributor?>> GetByAccountId(int id)
     {
         var contributor = await db.Contributor
             .Where(c => c.AccountId == id)
-            .FirstOrDefaultAsync();
-        return contributor?.ToContributor;
+            .ToListAsync();
+        return contributor.Select(c => c.ToContributor);
     }
 
     public async Task<IEnumerable<Contributor?>> GetByBoardId(int id)

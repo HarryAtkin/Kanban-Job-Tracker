@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class BoardInput
 {
-    public int OwnerId { get; }
+    public int OwnerId { get; set; }
 
     public string Title { get; set; }
 

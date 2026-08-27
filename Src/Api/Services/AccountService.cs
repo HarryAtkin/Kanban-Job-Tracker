@@ -1,9 +1,7 @@
 using Api.Services.models.mappers;
 using DotNetEnv;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -53,7 +51,7 @@ public class AccountService: IAccountService
         return account.Select(a => _mapper.ToAccountOutput(a)).ToList();
     }
 
-    public async Task<AccountOutput> Create(AccountInput account)
+    public async Task<AccountOutput?> Create(AccountInput account)
     {
         var _account = _mapper.ToAccount(account);
 
@@ -95,7 +93,8 @@ public class AccountService: IAccountService
         {
             new Claim(JwtRegisteredClaimNames.Sub, accountId.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, account.Email),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(ClaimTypes.Role, account.IsAdmin ? "admin" : "user")
         };
 
         var token = new JwtSecurityToken(

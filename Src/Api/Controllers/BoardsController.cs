@@ -1,3 +1,4 @@
+using Api.Controllers.util;
 using Api.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ public class BoardsController : ControllerBase
         _boardService = boardService;
     }
 
+    [Authorize(Roles = "admin")]
     [HttpGet("{id:int}")]
     public async Task<BoardOutput?> GetById(int id)
     {
@@ -22,6 +24,14 @@ public class BoardsController : ControllerBase
         return result;
     }
 
+    [HttpGet("GetByOwnerId")]
+    public async Task<ActionResult<IEnumerable<BoardOutput?>>> GetByOwnerId()
+    {
+        var result = await _boardService.GetByOwnerId(User.GetUserId());
+        return Ok(result);
+    }
+
+    [Authorize(Roles = "admin")]
     [HttpGet("GetByOwnerId/{id:int}")]
     public async Task<ActionResult<IEnumerable<BoardOutput?>>> GetByOwnerId(int id)
     {
@@ -29,6 +39,7 @@ public class BoardsController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize(Roles = "admin")]
     [HttpGet()]
     public async Task<ActionResult<IEnumerable<BoardOutput?>>> Get()
     {
@@ -39,6 +50,7 @@ public class BoardsController : ControllerBase
     [HttpPost("Create")]
     public async Task<ActionResult<BoardOutput>> Create(BoardInput boardInput)
     {
+        boardInput.OwnerId = User.GetUserId();
         var result = await _boardService.Create(boardInput);
         return Created($"/Boards/{result.Id}", result);
     }

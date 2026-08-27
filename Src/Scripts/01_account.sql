@@ -4,5 +4,6 @@ CREATE Table account (
     l_name TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
     user_password TEXT NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    is_admin BOOLEAN NOT NULL
     );

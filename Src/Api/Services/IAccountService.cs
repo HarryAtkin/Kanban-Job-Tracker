@@ -4,7 +4,7 @@ public interface IAccountService
 {
     //public Task<bool> Authenticate(Account account);
 
-    public Task<AccountOutput> Authenticate(AccountInput account);
+    public Task<AccountOutput?> Authenticate(AccountInput account);
 
     public Task<AccountOutput?> GetById(int id);
     public Task<AccountOutput?> GetByEmail(string email);

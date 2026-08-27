@@ -6,7 +6,7 @@ public interface IContributorRepository
 {
     public Task<Contributor?> GetById(int id);
 
-    public Task<Contributor?> GetByAccountId(int id);
+    public Task<IEnumerable<Contributor?>> GetByAccountId(int id);
 
     public Task<IEnumerable<Contributor?>> GetByBoardId(int id);
 
