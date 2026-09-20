@@ -19,7 +19,7 @@ public class AccountService: IAccountService
         _mapper = new AccountMapper();
     }
 
-    public async Task<AccountOutput?> Authenticate(AccountInput account)
+    public async Task<AccountOutput?> Authenticate(AccountLoginInput account)
     {
         var _account = _mapper.ToAccount(account);
         _account.Password = HashPassword(_account.Password);

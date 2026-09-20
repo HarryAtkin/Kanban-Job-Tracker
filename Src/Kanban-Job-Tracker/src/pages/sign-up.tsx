@@ -6,6 +6,7 @@ import { BorderAllOutlined, CenterFocusStrong, Visibility, VisibilityOff } from 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { create } from '../features/Auth';
 import { red } from '@mui/material/colors';
+import ErrorModal from './components/errorModal';
 
 interface SignUpPageProps {
     setPage: (page: 'login' | 'signup' | 'homepage') => void;
@@ -22,7 +23,7 @@ export default function SignUpPage ({setPage} : SignUpPageProps) {
 
     const [error, setError] = useState<boolean>(false);
     const [errorText, setErrorText] = useState("");
-    const handleClose = () => setError(false);
+    
 
     return (
         <>
@@ -121,32 +122,11 @@ export default function SignUpPage ({setPage} : SignUpPageProps) {
                             sx={{ margin: '2%', width: '50%' }}>
                                 Create Account
                             </Button>
-
-                            <Modal
-                                open={error}
-                                onClose={handleClose}
-                                aria-labelledby="modal-modal-title"
-                                aria-describedby="modal-modal-description"
-                                >
-                                <Box sx={{
-                                    position: 'absolute',
-                                    top: '50%',
-                                    left: '50%',
-                                    transform: 'translate(-50%, -50%)',
-                                    width: 400,
-                                    bgcolor: 'background.paper',
-                                    border: '2px solid #000',
-                                    boxShadow: 24,
-                                    p: 4,
-                                }}>
-                                    <Typography id="modal-modal-title" variant="h6" component="h2" sx={{textAlign: 'center'}}>
-                                    Error
-                                    </Typography>
-                                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                    {errorText}
-                                    </Typography>
-                                </Box>
-                            </Modal>
+                        <ErrorModal
+                            setError={setError}
+                            isOpen={error}
+                            errorText={errorText}
+                        />
                         </Grid>
                     </Grid>
                 </Box>

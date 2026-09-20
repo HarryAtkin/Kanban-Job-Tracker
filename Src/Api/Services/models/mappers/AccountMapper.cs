@@ -8,6 +8,11 @@
             return new Account(null, input.FName, input.LName, input.Email, input.Password, input.IsNew);
         }
 
+        public Account ToAccount(AccountLoginInput input)
+        {
+            return new Account(null, "", "", input.Email, input.Password, input.IsNew);
+        }
+
         public AccountOutput ToAccountOutput(Account input)
         {
             return new AccountOutput((int)input.Id, input.FName, input.LName, input.Email, input.Password, input.CreatedAt, input.Token);

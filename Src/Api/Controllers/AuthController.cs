@@ -14,7 +14,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("Authenticate")]
-    public async Task<ActionResult<AccountOutput>> Authenticate(AccountInput accountInput)
+    public async Task<ActionResult<AccountOutput>> Authenticate(AccountLoginInput accountInput)
     {
         var result = await _accountService.Authenticate(accountInput);
         return result != null ? Ok(result) : Unauthorized();

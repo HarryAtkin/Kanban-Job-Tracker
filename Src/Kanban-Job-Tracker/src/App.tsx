@@ -4,13 +4,18 @@ import SignUpPage from './pages/sign-up';
 import HomePage from './pages/homepage';
 import { useState } from 'react';
 
+function getPage() : string {
+  var page = localStorage.getItem('page')?.toString()
+  return page !== undefined ? page : 'homepage';
+}
+
 function App() {
 
     const [page, setPage] = useState<string>(() => {
       const token = localStorage.getItem('accessToken');
       if(token){
         const { exp } = JSON.parse(atob(token.split('.')[1]));
-        return exp * 1000 > Date.now() ? 'homepage' : 'login';
+        return exp * 1000 > Date.now() ? getPage() : 'login';
       }
       return 'login';
     });
