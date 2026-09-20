@@ -1,7 +1,7 @@
 import { Auth, CreateAccount } from "./Client";
 import { AccountInput } from "./models/AccountInput";
 
-export function login(email: string | undefined, password: string | undefined)
+export async function login(email: string | undefined, password: string | undefined) : Promise<number | undefined>
 {
 
     if(email == undefined || password == undefined){}
@@ -14,7 +14,7 @@ export function login(email: string | undefined, password: string | undefined)
 
         console.log(account)
 
-        Auth(account);
+        return await Auth(account);
     }
 }
 

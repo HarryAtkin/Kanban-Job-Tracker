@@ -4,10 +4,13 @@ import Box from '@mui/material/Box';
 import { useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import LoginPage from './login';
 import { create } from '../features/Auth';
 
-export default function SignUpPage () {
+interface SignUpPageProps {
+    setPage: (page: 'login' | 'signup' | 'homepage') => void;
+}
+
+export default function SignUpPage ({setPage} : SignUpPageProps) {
     
     const [fName, setFName] = useState("");
     const [lName, setLName] = useState("");
@@ -15,9 +18,6 @@ export default function SignUpPage () {
     const [password, setPassword] = useState("");
 
     const [type, setType] = useState('password');
-    const [page, setPage] = useState<'login' | 'signup'>('signup');
-
-    if (page === 'login') return <LoginPage />;
 
     return (
         <Card variant="elevation" sx={{ alignSelf: 'center', width: '50%', height: '80vh', marginTop: '8%', background: '#f9f9f9', alignItems: 'center'}}>
@@ -108,25 +108,5 @@ export default function SignUpPage () {
                 </Grid>
             </Box>
         </Card>
-    //     <ThemeProvider
-    //   theme={{
-    //     palette: {
-    //       primary: {
-    //         main: '#007FFF',
-    //         dark: '#0066CC',
-    //       },
-    //     },
-    //   }}
-    // >
-    //   <Box
-    //     sx={{
-    //       width: 100,
-    //       height: 100,
-    //       borderRadius: 1,
-    //       bgcolor: 'primary.main',
-    //     }}
-    //   />
-    // </ThemeProvider>
-
     );
 }
