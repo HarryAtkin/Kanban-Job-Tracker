@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance } from 'axios'
 // import axios, { type AxiosInstance } from 'axios'
-import { AccountInput } from './models/AccountInput';
+import { AccountSignUp, AccountLogin } from './models/AccountInput';
 
 function setupApi(){
     const Api = axios.create({
@@ -30,7 +30,7 @@ function setupAuth(Api: AxiosInstance){
             return Api
         }
 
-export async function Auth(account: AccountInput, ): Promise<number> {
+export async function Auth(account: AccountLogin, ): Promise<number> {
     var api = setupApi();
     api = setupAuth(api);
 
@@ -40,7 +40,7 @@ export async function Auth(account: AccountInput, ): Promise<number> {
     return await res.status
 }
 
-export async function CreateAccount(account: AccountInput){
+export async function CreateAccount(account: AccountSignUp){
     var api = setupApi();
     const res = await api.post('/Auth/Create', account);
     localStorage.setItem('accessToken', res.data.token);
