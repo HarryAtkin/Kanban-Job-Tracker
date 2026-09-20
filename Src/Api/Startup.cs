@@ -18,7 +18,6 @@ namespace Api
 
         public void ConfigureConnectionString()
         {
-            //Env.Load("./.env");
             Env.Load(Path.Combine(AppContext.BaseDirectory, ".env"));
 
             var connectionString = Environment.GetEnvironmentVariable("DefaultConnection")
@@ -31,7 +30,6 @@ namespace Api
 
         public void ConfigureJWTToken()
         {
-            //Env.Load("./.env");
             Env.Load(Path.Combine(AppContext.BaseDirectory, ".env"));
 
             var Secret = Environment.GetEnvironmentVariable("Secret");

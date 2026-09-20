@@ -1,31 +1,25 @@
 import { Auth, CreateAccount } from "./Client";
-import { AccountInput } from "./models/AccountInput";
+import { AccountLogin, AccountSignUp } from "./models/AccountInput";
 
-export function login(email: string | undefined, password: string | undefined)
+export async function login(email: string, password: string) : Promise<number | undefined>
 {
-
-    if(email == undefined || password == undefined){}
+    if (!email.trim() || !password.trim()) {
+    throw new Error("All fields required");
+  }
     else{
-        var account = new AccountInput;
-        account.Fname = 'empty'
-        account.Lname = 'empty'
-        account.Email = email;
+        var account = new AccountLogin;
+        account.Email = email.toLocaleLowerCase();
         account.Password = password;
 
-        console.log(account)
-
-        Auth(account);
+        return await Auth(account);
     }
 }
 
-export function create(fName: string, lName: string, email: string, password: string)
+export async function create(fName: string, lName: string, email: string, password: string)
 {
-    var account = new AccountInput;
-    account.Fname = fName
-    account.Lname = lName
-    account.Email = email;
-    account.Password = password;
-
-    console.log(account);
-    CreateAccount(account);
+    if (!fName.trim() || !lName.trim() || !email.trim() || !password.trim()) {
+    throw new Error("All fields required");
+  }
+    var account = new AccountSignUp(fName, lName, email.toLocaleLowerCase(), password);
+    await CreateAccount(account);
 }

@@ -57,6 +57,7 @@ public class AccountRepository : IAccountRepository
         accountEntity.LName = account.LName;
         accountEntity.Password = account.Password;
         accountEntity.CreatedAt = DateTime.UtcNow;
+        accountEntity.IsAdmin = account.IsAdmin;
         await db.Account
             .AddAsync(accountEntity);
         await db.SaveChangesAsync();

@@ -1,4 +1,5 @@
 using Api.Services.models.mappers;
+using System.Collections;
 
 namespace Api.Service;
 
@@ -19,16 +20,26 @@ public class ContributorService : IContributorService
         return contributor != null ? _mapper.ToContributorOutput(contributor) : null;
     }
 
-    public async Task<ContributorOutput?> GetByAccountId(int id)
+    public async Task<IEnumerable<ContributorOutput?>> GetByAccountId(int id)
     {
         var contributor = await _contributorRepository.GetByAccountId(id);
-        return contributor != null ? _mapper.ToContributorOutput(contributor) : null;
+        return contributor.Select(c => _mapper.ToContributorOutput(c)).ToList();
     }
 
-    public async Task<IEnumerable<ContributorOutput?>> GetByBoardId(int id)
+    public async Task<IEnumerable<ContributorOutput?>> GetByBoardId(int id, int uid)
     {
-        var contributor = await _contributorRepository.GetByBoardId(id);
-        return contributor.Select(c => _mapper.ToContributorOutput(c)).ToList();
+        var boards = await GetByAccountId(uid);
+        boards.Select(b => b.BoardId == id);
+
+        if (boards.Any())
+        {
+            var contributor = await _contributorRepository.GetByBoardId(id);
+            return contributor.Select(c => _mapper.ToContributorOutput(c)).ToList();
+        }
+        else
+        {
+            throw new UnauthorizedAccessException();
+        }
     }
 
     public async Task<IEnumerable<ContributorOutput?>> Get()

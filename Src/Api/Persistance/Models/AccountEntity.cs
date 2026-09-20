@@ -23,6 +23,9 @@ public class AccountEntity
     [Column("created_at")]
     public DateTime CreatedAt { get; set; }
 
+    [Column("is_admin")]
+    public bool IsAdmin { get; set; }
+
     public AccountEntity()
     {
 

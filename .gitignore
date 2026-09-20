@@ -1,6 +1,8 @@
 # Environment
 DatabaseSecrets.env
-.env
+*.env
+*.env.development
+*.env.production
 
 # Node
 ./node_modules/
